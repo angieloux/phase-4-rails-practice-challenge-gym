@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "gyms#index"
+  root "pages#home"
   resources :memberships
   resources :clients
   resources :gyms

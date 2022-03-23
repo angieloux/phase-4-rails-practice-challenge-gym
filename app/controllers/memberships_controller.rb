@@ -13,6 +13,8 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
+    @clients = Client.all
+    @gyms = Gym.all
   end
 
   # GET /memberships/1/edit
