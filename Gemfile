@@ -5,6 +5,10 @@ ruby "2.7.5"
 
 gem 'rails', '~> 6.1.5'
 
+group :development do
+  gem 'meta_request'
+end
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]

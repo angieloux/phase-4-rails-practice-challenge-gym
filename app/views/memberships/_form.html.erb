@@ -13,17 +13,17 @@
 
   <div>
     <%= form.label :charge, style: "display: block" %>
-    <%= form.select :charge, [40,60,80].map {|t| t} %>
+    <%= form.select :charge, [40,60,80].map {|t| t}, class: "form-select" %>
   </div>
 
   <div>
     <%= form.label :client_id, style: "display: block" %>
-    <%= form.select :client_id, @clients.map {|c| [c.name] } %>
+    <%= form.select :client_id, @clients.map {|c| [c.name, c.age, c.id] }, class: "form-select" %>
   </div>
 
   <div>
     <%= form.label :gym_id, style: "display: block" %>
-    <%= form.select :gym_id, @gyms.map {|c| [c.name] } %>
+    <%= form.select :gym_id, @gyms.map {|c| [c.name, c.address, c.id] } %>
   </div>
 
   <div>

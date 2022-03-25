@@ -1,5 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: %i[ show edit update destroy ]
+  before_action :new_gym_client, only: [ :create ]
 
   # GET /memberships or /memberships.json
   def index
@@ -24,16 +25,16 @@ class MembershipsController < ApplicationController
   # POST /memberships or /memberships.json
   def create
     @membership = Membership.new(membership_params)
-
     respond_to do |format|
-      if @membership.save
-        format.html { redirect_to membership_url(@membership), notice: "Membership was successfully created." }
-        format.json { render :show, status: :created, location: @membership }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
+        if @membership.save && new_gym_client
+          format.html { redirect_to membership_url(@membership), notice: "Membership was successfully created." }
+          format.json { render :show, status: :created, location: @membership }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @membership.errors, status: :unprocessable_entity }
+        end 
+
       end
-    end
   end
 
   # PATCH/PUT /memberships/1 or /memberships/1.json
@@ -48,7 +49,7 @@ class MembershipsController < ApplicationController
       end
     end
   end
-
+  
   # DELETE /memberships/1 or /memberships/1.json
   def destroy
     @membership.destroy
@@ -59,8 +60,18 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def new_gym_client
+    @client = Client.find(params[:membership][:client_id])
+    @gym =  Gym.find(params[:membership][:gym_id])
+    @client.memberships.ids.include?(@gym.id) ? false : true
+    p "************************************"
+    @clients = Client.client_memberships
+
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
+   
+    
     def set_membership
       @membership = Membership.find(params[:id])
     end
@@ -69,4 +80,6 @@ class MembershipsController < ApplicationController
     def membership_params
       params.require(:membership).permit(:charge, :client_id, :gym_id)
     end
+
+   
 end
